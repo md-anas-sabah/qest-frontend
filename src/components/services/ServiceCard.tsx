@@ -9,7 +9,6 @@ interface ServiceCardProps {
 export const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
   const { addToCart, removeFromCart, items } = useCart();
 
-  // Check if service is already in cart by looking at the service ID in the CartItem structure
   const isInCart = items.some((item) => item.service.id === service.id);
 
   const handleToggleCart = () => {

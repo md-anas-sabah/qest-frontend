@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "../../context/CartContext";
 import { ShoppingCart, Grid } from "lucide-react";
 
 export const Header: React.FC = () => {
   const { items } = useCart();
+  const [isAnimating, setIsAnimating] = useState(false);
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+
+  useEffect(() => {
+    if (items.length > 0) {
+      setIsAnimating(true);
+
+      const timer = setTimeout(() => {
+        setIsAnimating(false);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [items.length]);
 
   return (
     <header className="bg-white shadow-sm">
@@ -26,10 +39,24 @@ export const Header: React.FC = () => {
 
             <Link
               to="/checkout"
-              className="flex items-center gap-2 text-gray-600 hover:text-gray-900"
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 relative"
             >
-              <ShoppingCart size={20} />
-              <span>Cart ({itemCount})</span>
+              <div
+                className={`${
+                  isAnimating
+                    ? "animate-cart-attention text-blue-600"
+                    : "transform transition-colors duration-300"
+                }`}
+              >
+                <ShoppingCart size={20} />
+              </div>
+              <span
+                className={`${
+                  isAnimating ? "text-blue-600 font-medium" : ""
+                } transition-colors duration-300`}
+              >
+                {itemCount > 0 ? `(${itemCount})` : ""}
+              </span>
             </Link>
           </div>
         </div>
