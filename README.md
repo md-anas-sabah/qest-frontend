@@ -1,50 +1,135 @@
-# React + TypeScript + Vite
+# Service POS System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern Point of Sale (POS) system built with React and TypeScript, designed for service-based businesses. This application helps manage services, handle customer orders, and process payments efficiently.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Service Management**
 
-## Expanding the ESLint configuration
+  - Browse services by category
+  - Search functionality
+  - Detailed service information
+  - Dynamic pricing
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Shopping Cart**
 
-- Configure the top-level `parserOptions` property like this:
+  - Add/remove services
+  - Adjust quantities
+  - Real-time total calculation
+  - Persistent cart state
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+- **Checkout Process**
+
+  - Customer information collection
+  - Payment processing
+  - Digital receipt generation
+
+
+## 📁 Project Structure
+
+```
+pos-service/
+├── src/
+│   ├── components/
+│   │   ├── layout/           # Layout components
+│   │   │   ├── Header.tsx
+│   │   │   ├── Sidebar.tsx
+│   │   │   └── Layout.tsx
+│   │   ├── services/         # Service-related components
+│   │   │   ├── ServiceCard.tsx
+│   │   │   └── ServiceList.tsx
+│   │   ├── cart/            # Shopping cart components
+│   │   │   ├── CartItem.tsx
+│   │   │   └── Cart.tsx
+│   │   ├── checkout/        # Checkout process components
+│   │   │   ├── CustomerForm.tsx
+│   │   │   ├── PaymentForm.tsx
+│   │   │   └── Receipt.tsx
+│   │   └── ui/             # Reusable UI components
+│   │       ├── Button.tsx
+│   │       └── Input.tsx
+│   ├── pages/              # Page components
+│   │   ├── Home.tsx
+│   │   ├── Services.tsx
+│   │   └── Checkout.tsx
+│   ├── context/           # React Context providers
+│   │   └── CartContext.tsx
+│   ├── types/            # TypeScript type definitions
+│   │   └── index.ts
+│   ├── utils/           # Utility functions
+│   │   └── helpers.ts
+│   └── data/           # Static data and mock services
+│       └── services.ts
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## 🛠️ Technology Stack
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+- **Frontend Framework**: React with TypeScript
+- **Styling**: Tailwind CSS
+- **State Management**: React Context
+- **Routing**: React Router
+- **Internationalization**: react-i18next
+- **Icons**: Lucide React
+- **Charts**: Recharts
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+## 🚦 Getting Started
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/yourusername/pos-service.git
+   cd pos-service
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+
+   ```bash
+   npm run dev
+   ```
+
+4. **Build for production**
+   ```bash
+   npm run build
+   ```
+
+## 💻 Development
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+
+### Environment Setup
+
+Create a `.env` file in the root directory:
+
+```env
+VITE_API_URL=your_api_url
 ```
+
+### Code Style
+
+- ESLint for code linting
+- Prettier for code formatting
+- TypeScript for type checking
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+
+## 🙏 Acknowledgments
+
+- React team for the amazing framework
+- Tailwind CSS for the utility-first CSS framework
+- All contributors who have helped this project grow
