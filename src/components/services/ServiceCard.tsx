@@ -7,7 +7,18 @@ interface ServiceCardProps {
 }
 
 export const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
-  const { addToCart } = useCart();
+  const { addToCart, removeFromCart, items } = useCart();
+
+  // Check if service is already in cart by looking at the service ID in the CartItem structure
+  const isInCart = items.some((item) => item.service.id === service.id);
+
+  const handleToggleCart = () => {
+    if (isInCart) {
+      removeFromCart(service.id);
+    } else {
+      addToCart(service);
+    }
+  };
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
@@ -21,10 +32,14 @@ export const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
           <span className="text-gray-500 ml-2">{service.duration}</span>
         </div>
         <button
-          onClick={() => addToCart(service)}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition-colors"
+          onClick={handleToggleCart}
+          className={`px-4 py-2 rounded transition-colors ${
+            isInCart
+              ? "bg-red-600 hover:bg-red-700 text-white"
+              : "bg-blue-600 hover:bg-blue-700 text-white"
+          }`}
         >
-          Add to Cart
+          {isInCart ? "Remove" : "Add to Cart"}
         </button>
       </div>
     </div>
