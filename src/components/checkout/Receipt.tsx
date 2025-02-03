@@ -34,61 +34,51 @@ export const Receipt: React.FC<ReceiptProps> = ({
   onFinish,
 }) => {
   const downloadPDF = () => {
-    // Note: You'll need to install jspdf with: npm install jspdf
-
     const doc = new jsPDF();
 
-    // Set initial y position for content
     let y = 20;
 
-    // Add company logo or name
     doc.setFontSize(20);
-    doc.setTextColor(0, 128, 0); // Green color for header
+    doc.setTextColor(0, 128, 0);
     doc.text("Payment Receipt", 105, y, { align: "center" });
 
-    // Reset text color
     doc.setTextColor(0, 0, 0);
 
-    // Add transaction details
     y += 20;
     doc.setFontSize(12);
     doc.text(`Transaction ID: ${transactionId}`, 20, y);
     y += 10;
     doc.text(`Date: ${new Date().toLocaleString()}`, 20, y);
 
-    // Add customer information
     y += 20;
     doc.setFontSize(14);
-    doc.setFont(undefined, "bold");
+    doc.setFont("helvetica", "bold");
     doc.text("Customer Information", 20, y);
     y += 10;
     doc.setFontSize(12);
-    doc.setFont(undefined, "normal");
+    doc.setFont("helvetica", "normal");
     doc.text(`Name: ${customer.name}`, 20, y);
     y += 8;
     doc.text(`Email: ${customer.email}`, 20, y);
     y += 8;
     doc.text(`Phone: ${customer.phone}`, 20, y);
 
-    // Add order summary
     y += 20;
     doc.setFontSize(14);
-    doc.setFont(undefined, "bold");
+    doc.setFont("helvetica", "bold");
     doc.text("Order Summary", 20, y);
     y += 10;
     doc.setFontSize(12);
-    doc.setFont(undefined, "normal");
+    doc.setFont("helvetica", "normal");
 
-    // Add table headers
-    doc.line(20, y, 190, y); // Add line above headers
+    doc.line(20, y, 190, y); 
     y += 8;
     doc.text("Item", 20, y);
     doc.text("Qty", 130, y);
     doc.text("Price", 160, y);
     y += 4;
-    doc.line(20, y, 190, y); // Add line below headers
+    doc.line(20, y, 190, y); 
 
-    // Add items
     y += 8;
     items.forEach((item) => {
       doc.text(item.service.name, 20, y);
@@ -97,21 +87,18 @@ export const Receipt: React.FC<ReceiptProps> = ({
       y += 8;
     });
 
-    // Add total
     y += 4;
     doc.line(20, y, 190, y);
     y += 8;
-    doc.setFont(undefined, "bold");
+    doc.setFont("helvetica", "bold");
     doc.text("Total:", 130, y);
     doc.text(`$${total.toFixed(2)}`, 160, y);
 
-    // Save PDF
     doc.save(`receipt-${transactionId}.pdf`);
   };
 
   return (
     <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
-      {/* Success Header */}
       <div className="text-center mb-8">
         <div className="mb-4">
           <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
@@ -136,7 +123,6 @@ export const Receipt: React.FC<ReceiptProps> = ({
         <p className="text-gray-600">Thank you for your purchase</p>
       </div>
 
-      {/* Transaction Details */}
       <div className="bg-gray-50 rounded-lg p-4 mb-6">
         <h3 className="font-medium text-gray-800 mb-2">Transaction Details</h3>
         <p className="text-sm text-gray-600">Transaction ID: {transactionId}</p>
@@ -145,7 +131,6 @@ export const Receipt: React.FC<ReceiptProps> = ({
         </p>
       </div>
 
-      {/* Customer Information */}
       <div className="mb-6">
         <h3 className="font-medium text-gray-800 mb-2">Customer Information</h3>
         <div className="bg-gray-50 rounded-lg p-4">
@@ -155,7 +140,6 @@ export const Receipt: React.FC<ReceiptProps> = ({
         </div>
       </div>
 
-      {/* Order Summary */}
       <div className="mb-8">
         <h3 className="font-medium text-gray-800 mb-2">Order Summary</h3>
         <div className="bg-gray-50 rounded-lg p-4">
@@ -183,7 +167,6 @@ export const Receipt: React.FC<ReceiptProps> = ({
         </div>
       </div>
 
-      {/* Action Buttons */}
       <div className="grid grid-cols-2 gap-4">
         <button
           onClick={onFinish}

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CustomerForm } from "../components/checkout/CustomerForm";
@@ -7,6 +8,12 @@ import { PaymentForm } from "../components/checkout/PaymentForm";
 import { Receipt } from "../components/checkout/Receipt";
 
 type CheckoutStep = "customer" | "payment" | "receipt";
+
+interface PaymentData {
+  cardNumber: string;
+  expiryDate: string;
+  cvv: string;
+}
 
 export const CheckoutPage: React.FC = () => {
   const [step, setStep] = useState<CheckoutStep>("customer");
@@ -20,11 +27,8 @@ export const CheckoutPage: React.FC = () => {
     setStep("payment");
   };
 
-  const handlePaymentSubmit = async (paymentData: any) => {
-    // Simulate payment processing
+  const handlePaymentSubmit = async (_paymentData: PaymentData) => {
     await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // Generate a random transaction ID
     const tid = "TRX-" + Math.random().toString(36).substr(2, 9).toUpperCase();
     setTransactionId(tid);
     setStep("receipt");
@@ -51,7 +55,6 @@ export const CheckoutPage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-2xl">
-      {/* Checkout Progress */}
       <div className="mb-8">
         <div className="flex justify-between items-center">
           {["customer", "payment", "receipt"].map((s, index) => (
@@ -82,7 +85,6 @@ export const CheckoutPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Step Content */}
       <div className="bg-white rounded-lg shadow-md p-6">
         {step === "customer" && (
           <>

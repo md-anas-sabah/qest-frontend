@@ -1,7 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import { ChevronDown, Check } from "lucide-react";
 
-const CustomDropdown = ({
+interface CustomDropdownProps {
+  options: string[];
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+}
+
+const CustomDropdown: React.FC<CustomDropdownProps> = ({
   options,
   value,
   onChange,
@@ -9,11 +16,14 @@ const CustomDropdown = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [highlighted, setHighlighted] = useState(-1);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -22,7 +32,7 @@ const CustomDropdown = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (!isOpen) {
       if (e.key === "Enter" || e.key === " ") {
         setIsOpen(true);
@@ -58,7 +68,6 @@ const CustomDropdown = ({
       onKeyDown={handleKeyDown}
       tabIndex={0}
     >
-      {/* Selected Value Display */}
       <div
         onClick={() => setIsOpen(!isOpen)}
         className={`flex items-center justify-between w-full px-4 py-2.5 bg-white border rounded-lg cursor-pointer
@@ -78,7 +87,6 @@ const CustomDropdown = ({
         />
       </div>
 
-      {/* Dropdown Options */}
       {isOpen && (
         <div className="absolute z-50 w-full mt-2 bg-white border border-gray-200 rounded-lg shadow-lg animate-fadeIn">
           <div className="py-1 max-h-60 overflow-auto">

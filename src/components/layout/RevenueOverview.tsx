@@ -1,3 +1,4 @@
+import React from "react";
 import {
   BarChart,
   Bar,
@@ -10,11 +11,35 @@ import {
 import { X, TrendingUp, DollarSign, ShoppingBag } from "lucide-react";
 import { services } from "../../data/services";
 
-const RevenueOverview = ({ isOpen, onClose }) => {
+interface Service {
+  id: string;
+  name: string;
+  category: string;
+  price: number;
+  description: string;
+}
+
+interface RevenueOverviewProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+interface CategoryRevenue {
+  [key: string]: number;
+}
+
+interface ChartDataItem {
+  category: string;
+  revenue: number;
+}
+
+const RevenueOverview: React.FC<RevenueOverviewProps> = ({
+  isOpen,
+  onClose,
+}) => {
   if (!isOpen) return null;
 
-  // Calculate category-wise revenue potential
-  const categoryRevenue = services.reduce((acc, service) => {
+  const categoryRevenue = services.reduce<CategoryRevenue>((acc, service) => {
     if (!acc[service.category]) {
       acc[service.category] = 0;
     }
@@ -22,31 +47,32 @@ const RevenueOverview = ({ isOpen, onClose }) => {
     return acc;
   }, {});
 
-  const chartData = Object.entries(categoryRevenue).map(
+  const chartData: ChartDataItem[] = Object.entries(categoryRevenue).map(
     ([category, revenue]) => ({
       category,
       revenue,
     })
   );
 
-  // Calculate statistics
   const totalRevenue = Object.values(categoryRevenue).reduce(
     (a, b) => a + b,
     0
   );
   const avgServicePrice = totalRevenue / services.length;
-  const mostExpensiveService = services.reduce((prev, current) =>
+  const mostExpensiveService = services.reduce<Service>((prev, current) =>
     prev.price > current.price ? prev : current
   );
 
-  // Calculate services by category
-  const servicesByCategory = services.reduce((acc, service) => {
-    if (!acc[service.category]) {
-      acc[service.category] = 0;
-    }
-    acc[service.category]++;
-    return acc;
-  }, {});
+  const servicesByCategory = services.reduce<CategoryRevenue>(
+    (acc, service) => {
+      if (!acc[service.category]) {
+        acc[service.category] = 0;
+      }
+      acc[service.category]++;
+      return acc;
+    },
+    {}
+  );
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
@@ -108,7 +134,9 @@ const RevenueOverview = ({ isOpen, onClose }) => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="category" />
                 <YAxis />
-                <Tooltip formatter={(value) => [`$${value}`, "Revenue"]} />
+                <Tooltip
+                  formatter={(value: number) => [`$${value}`, "Revenue"]}
+                />
                 <Bar dataKey="revenue" fill="#4F46E5" />
               </BarChart>
             </ResponsiveContainer>
